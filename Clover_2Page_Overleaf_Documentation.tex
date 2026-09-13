@@ -1,7 +1,7 @@
 \documentclass[10pt,a4paper]{article}
 
 % --- Geometry & Spacing (Engineered strictly for exact 2 pages) ---
-\usepackage[margin=0.62in,top=0.55in,bottom=0.55in]{geometry}
+\usepackage[margin=0.48in,top=0.42in,bottom=0.42in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
@@ -14,7 +14,7 @@
 \usepackage{fontawesome5}
 
 % --- Compact List Spacing ---
-\setlist{nosep,leftmargin=1.2em}
+\setlist{nosep,leftmargin=1.1em,itemsep=1pt,topsep=1.5pt}
 
 % --- Colors & Styling ---
 \definecolor{forest}{RGB}{16, 120, 72}
@@ -31,9 +31,9 @@
     colframe=forest!80!black,
     fonttitle=\bfseries\small,
     title=#1,
-    arc=1.5mm,
-    top=1.5mm, bottom=1.5mm, left=2mm, right=2mm,
-    boxrule=0.8pt
+    arc=1.2mm,
+    top=1mm, bottom=1mm, left=2mm, right=2mm,
+    boxrule=0.7pt
 }
 
 \pagestyle{empty} % Clean unnumbered 2-page submission format
@@ -95,30 +95,34 @@ A central innovation in Clover is replacing naive bounding-box addition with rig
 % ==============================================================================
 % SECTION 4: PANTROPICAL ALLOMETRY & DUAL UNCERTAINTY
 % ==============================================================================
-\noindent\textbf{\large 4. Pantropical Allometry \& Dual-Component Uncertainty Propagation}\\[0.3em]
+\noindent\textbf{\large 4. Pantropical Allometry \& Dual-Component Uncertainty Propagation}\\[0.25em]
 Because satellites cannot directly measure tree trunk diameter ($DBH$) or wood density ($\rho$) under a closed canopy, biomass estimation relies on crown diameter ($CD = \sqrt{W \cdot H}$) power-law scaling models.
 \begin{itemize}
-    \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Allometry: Derived from 2,000+ destructively weighed trees across four continents:
+    \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Allometry: Derived from 2,000+ destructively weighed trees across 4 continents:
+    \vspace{-0.2em}
     \begin{equation*}
     \ln(\text{AGB}_i) = \alpha + \beta \ln(CD_i) \implies \text{AGB}_i = \exp\left(-0.328 + 2.404 \ln(CD_i)\right) \quad [\text{kg dry matter}]
     \end{equation*}
+    \vspace{-0.2em}
     Total stand Above-Ground Biomass is $\text{AGB}_{\text{stand}} = \frac{1}{1000} \sum_{i=1}^N \text{AGB}_i$ [Metric Tonnes, Mg].
-    \item \textbf{Carbon Stock \& $\text{CO}_{2\text{e}}$}: Dry biomass is $47\%$ elemental carbon (IPCC standard): $C_{\text{stock}} = \text{AGB}_{\text{stand}} \times 0.47$. Multiplying by the molecular weight ratio of $\text{CO}_2$ to carbon ($44/12 \approx 3.664$) yields equivalent atmospheric $\text{CO}_{2\text{e}}$ sequestered.
-    \item \textbf{Dual-Component Uncertainty Formulation}: At the individual stem level, allometry carries high residual variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). However, under the \textbf{Central Limit Theorem (CLT)}, uncorrelated random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. Crucially, pantropical models have a \textbf{systematic error floor} ($\sigma_{\text{sys}} \approx \pm 12.0\%$, \href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) due to regional wood density and climate taper variations that do not average to zero. Clover calculates combined stand uncertainty via root-sum-of-squares:
+    \item \textbf{Carbon Stock \& $\text{CO}_{2\text{e}}$}: Dry biomass is $47\%$ elemental carbon (IPCC standard): $C_{\text{stock}} = \text{AGB}_{\text{stand}} \times 0.47$. Multiplying by molecular weight ratio ($44/12 \approx 3.664$) yields equivalent atmospheric $\text{CO}_{2\text{e}}$ sequestered.
+    \item \textbf{Dual-Component Uncertainty Formulation}: At the individual stem level, allometry carries high residual variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). Under the \textbf{Central Limit Theorem (CLT)}, uncorrelated random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. Crucially, pantropical models carry an irreducible \textbf{systematic error floor} ($\sigma_{\text{sys}} \approx \pm 12.0\%$, \href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) due to regional wood density and climate taper variations that do not average to zero:
+    \vspace{-0.2em}
     \begin{equation*}
     \sigma_{\text{total}} = \sqrt{\sigma_{\text{stat}}^2 + \sigma_{\text{sys}}^2} = \sqrt{\left(\frac{56.5\%}{\sqrt{N_{\text{trees}}}}\right)^2 + (12.0\%)^2} \approx \mathbf{\pm 12.5\%\text{ to } 13.5\%}
     \end{equation*}
-    This ensures that large stands asymptote to an audit-defensible, honest error bracket rather than claiming unscientific zero-error precision.
+    \vspace{-0.2em}
+    This guarantees that large stands asymptote to an audit-defensible, honest error bracket rather than claiming unscientific zero-error precision.
 \end{itemize}
 
-\vspace{0.5em}
+\vspace{0.25em}
 % ==============================================================================
 % SECTION 5: WHAT WORKED (EMPIRICAL BENCHMARK & GROUND VALIDATION)
 % ==============================================================================
-\noindent\textbf{\large 5. What Worked: Empirical Calibration \& Ground Validation}\\[0.25em]
+\noindent\textbf{\large 5. What Worked: Empirical Calibration \& Ground Validation}\\[0.2em]
 Following visual audit, we calibrated detector thresholds from conservative defaults ($\text{score}=0.25, \text{IoU}=0.25, \text{halo}=20\%$) to an optimized high-recall pipeline ($\text{score}=0.15, \text{IoU}=0.30, \text{halo}=25\%$).
 \begin{itemize}
-    \item \textbf{Recall Doubled with Zero False Positives}: On the OSBS ground-truth benchmark, calibrated inference detected 55/55 trees with \textbf{0.0\% false positive rate} ($0.22\,\text{s}$). On Jadavpur University, recall rose $+109.6\%$ (104 $\to$ \textbf{218} crowns) resolving dense campus thickets.
+    \item \textbf{Recall Doubled with Zero False Positives}: On the OSBS benchmark, calibrated inference detected 55/55 trees with \textbf{0.0\% false positive rate} ($0.22\,\text{s}$). On Jadavpur University, recall rose $+109.6\%$ (104 $\to$ \textbf{218} crowns) resolving dense campus thickets.
     \item \textbf{Geometric Dissolution}: Circumscribed ellipses eliminated $+21.46\%$ box area bias, and \texttt{shapely.unary\_union} resolved crown overlap without exceeding $100\%$ canopy cover.
 \end{itemize}
 
@@ -138,38 +142,37 @@ Following visual audit, we calibrated detector thresholds from conservative defa
 \end{tabular}
 \end{center}
 
-\vspace{-0.3em}
+\vspace{-0.4em}
 % ==============================================================================
 % SECTION 6: WHAT DIDN'T (FAILED EXPERIMENTS & NEGATIVE DISCLOSURES)
 % ==============================================================================
-\noindent\textbf{\large 6. What Didn't: Failed Experiments \& Honest Disclosures}\\[0.25em]
+\noindent\textbf{\large 6. What Didn't: Failed Experiments \& Honest Disclosures}\\[0.2em]
 High-integrity MRV requires disclosing failed engineering paths:
 \begin{enumerate}
-    \item \textbf{Single-Scale Conservative Thresholding}: Default $\text{score}=0.25$ missed over $50\%$ of suppressed crowns in dense urban thickets, grouping multi-stem clusters into single detections.
-    \item \textbf{High-Resolution Over-Zoom ($1.75\times$)}: Testing artificial magnification caused catastrophic over-segmentation ($539$ crowns on Jadavpur), falsely splitting primary structural branches and fork bifurcations into multiple fake trees.
-    \item \textbf{Hydrological Weed False Positives}: Floating mats of invasive water hyacinth (\textit{Eichhornia crassipes}) in urban lakes shared spectral reflectance with tree crowns, triggering false positives until we implemented color-index water masking.
-    \item \textbf{Paywalled Ground Truth Verification}: While \href{https://doi.org/10.36808/if/2019/v145i3/144454}{\textit{Bardhan \& Sarkar (2019)}} confirms Simpson's index $0.91$ and $3.28\,\text{t C/yr}$ for Jadavpur University, full-text field stem counts remain behind a paywall; rather than citing unverified claims, we openly document this data barrier.
+    \item \textbf{Single-Scale Conservative Thresholding}: Default $\text{score}=0.25$ missed over $50\%$ of suppressed crowns in dense urban thickets (only 104 trees at Jadavpur), grouping multi-stem clusters into single detections.
+    \item \textbf{High-Resolution Over-Zoom ($1.75\times$)}: Artificial magnification caused catastrophic over-segmentation ($539$ crowns), falsely splitting primary structural branches and fork bifurcations into multiple fake trees.
+    \item \textbf{Hydrological Weed False Positives}: Floating mats of invasive water hyacinth (\textit{Eichhornia crassipes}) in urban lakes shared spectral reflectance with tree crowns, requiring an automated hydrological mask.
+    \item \textbf{Paywalled Ground Plot Truth}: While \href{https://doi.org/10.36808/if/2019/v145i3/144454}{\textit{Bardhan \& Sarkar (2019)}} confirms Simpson's index $0.91$ and $3.28\,\text{t C/yr}$ for Jadavpur, full stem census counts remain behind a paywall; we openly document this data barrier rather than inventing numbers.
 \end{enumerate}
 
-\vspace{0.25em}
+\vspace{0.2em}
 % ==============================================================================
 % SECTION 7: KNOWN PHYSICAL LIMITATIONS (MRV AUDIT DEFENSE)
 % ==============================================================================
-\noindent\textbf{\large 7. Known Physical Limitations (MRV Audit Defense)}\\[0.25em]
+\noindent\textbf{\large 7. Known Physical Limitations (MRV Audit Defense)}\\[0.2em]
 In accordance with voluntary carbon market principles, Clover explicitly establishes four immutable physical limits:
 \begin{enumerate}
-    \item \textbf{Optical Subcanopy Blindness}: 2D optical sensors cannot penetrate the dominant canopy layer. Suppressed saplings and understory shrubs ($\approx 10\text{--}15\%$ of biomass) are invisible without 3D LiDAR.
-    \item \textbf{Closed Canopy Saturation}: In contiguous primary tropical rainforests, tree crowns form an unbroken ceiling where individual boundaries physically cease to exist. Discrete stem counting fails; dissolved continuous canopy area ($m^2$) is the only mathematically defensible metric.
-    \item \textbf{Regional Systematic Allometric Floor ($\pm 12\%$)}: Allometric equations cannot be perfected by satellite imagery alone. Regional wood density and stem-taper variations (\href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}) introduce an irreducible $\pm 12\%$ systematic error floor that does not vanish under Central Limit Theorem averaging.
-    \item \textbf{Solar Zenith Shadows \& Deciduous Phenology}: Low sun angles cast long building/tree shadows that obscure foliar textures, while leaf-off deciduous states drop recall; acquisition windows must enforce peak NDVI seasons.
+    \item \textbf{Optical Subcanopy Blindness}: 2D optical sensors cannot penetrate the dominant canopy layer. Suppressed saplings and shrubs ($\approx 10\text{--}15\%$ biomass) are invisible without 3D LiDAR.
+    \item \textbf{Closed Canopy Saturation}: In dense tropical rainforests, tree crowns form an unbroken ceiling where discrete stem boundaries physically do not exist; dissolved canopy area ($m^2$) is the only valid metric.
+    \item \textbf{Regional Systematic Allometric Floor ($\pm 12\%$)}: Allometric equations cannot be perfected by satellite imagery alone. Regional wood density and stem-taper variations (\href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}) introduce an irreducible $\pm 12\%$ systematic error floor that never averages to zero.
+    \item \textbf{Solar Shadows \& Phenology}: Low sun angles cast long building/tree shadows that obscure foliar textures, while winter leaf-off states drop recall; tasking must enforce peak NDVI seasons.
 \end{enumerate}
 
-\vspace{0.4em}
+\vspace{0.25em}
 \begin{calloutbox}{Two Production Deployment Modalities}
 \begin{itemize}
-    \item \textbf{Live Cloud Web App}: Deployed 24/7 on Streamlit Cloud at \href{https://tryclover.streamlit.app}{\textbf{https://tryclover.streamlit.app}} with zero installation, interactive Mapbox GIS layers, one-click screenshot paste from clipboard, and GeoJSON/CSV export.
-    \item \textbf{Local Deterministic Execution}: Full modern \texttt{uv}-based packaging with locked dependencies. Any evaluator can run the pipeline locally in $<2\,\text{seconds}$:
-    \quad\texttt{git clone https://github.com/soumomo/clover \&\& cd clover \&\& uv run streamlit run app.py}
+    \item \textbf{Live Cloud Web App}: Deployed 24/7 on Streamlit Cloud at \href{https://tryclover.streamlit.app}{\textbf{tryclover.streamlit.app}} with Mapbox GIS, clipboard screenshot paste, and GeoJSON/CSV export.
+    \item \textbf{Local Deterministic Execution}: Fast \texttt{uv}-based packaging ($<2\,\text{s}$): \quad\texttt{git clone https://github.com/soumomo/clover \&\& cd clover \&\& uv run streamlit run app.py}
 \end{itemize}
 \end{calloutbox}
 
