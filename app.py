@@ -34,7 +34,7 @@ from shapely.geometry import Polygon, mapping
 import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_folium import folium_static
-from streamlit_paste_button import paste_image_button
+from canopy_core.components.paste_button import paste_image_button
 
 from canopy_core.ingest import inspect_raster, parse_aoi, clip_raster_to_aoi, RasterMetadata
 from canopy_core.models.detector import TreeDetector
@@ -236,7 +236,7 @@ div[data-baseweb="select"] * {
     margin-bottom: 8px;
 }
 
-iframe[title*="paste_image_button"] {
+iframe[title*="paste_button"], iframe[title*="clover_paste_button"] {
     width: 100% !important;
     border: none !important;
     overflow: hidden !important;
