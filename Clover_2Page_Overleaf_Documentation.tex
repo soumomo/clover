@@ -85,7 +85,7 @@ A central innovation in Clover is replacing naive bounding-box addition with rig
     \begin{equation*}
     \mathcal{C}_{\text{dissolved}} = \bigcup_{i=1}^N \mathcal{P}_i \implies \text{Canopy Cover \%} = \frac{\text{Area}(\mathcal{C}_{\text{dissolved}} \cap \mathcal{A}_{\text{AOI}})}{\text{Area}(\mathcal{A}_{\text{AOI}})} \times 100\%
     \end{equation*}
-    \item \textbf{Li et al. (PNAS Nexus 2023) +20\% Empirical Bias Calibration}: Optical RGB sensors capture the dense sunlit core of a crown but miss semi-translucent peripheral twigs and sun-bleached branch tips. Field LiDAR comparisons by Li et al. (2023) established that 2D optical models underestimate true crown projection by $\approx 20\%$. Clover applies this $+20\%$ calibration factor to report both raw and calibrated canopy footprints.
+    \item \textbf{\href{https://doi.org/10.1093/pnasnexus/pgad076}{Li et al. (PNAS Nexus 2023)} +20\% Empirical Bias Calibration}: Optical RGB sensors capture the dense sunlit core of a crown but miss semi-translucent peripheral twigs and sun-bleached branch tips. Field LiDAR comparisons by Li et al. (2023) established that 2D optical models underestimate true crown projection by $\approx 20\%$. Clover applies this $+20\%$ calibration factor to report both raw and calibrated canopy footprints.
 \end{itemize}
 
 \newpage % STRICT PAGE 2 SPLIT
@@ -96,13 +96,13 @@ A central innovation in Clover is replacing naive bounding-box addition with rig
 \noindent\textbf{\large 4. Pantropical Allometry \& Dual-Component Uncertainty Propagation}\\[0.3em]
 Because satellites cannot directly measure tree trunk diameter ($DBH$) or wood density ($\rho$) under a closed canopy, biomass estimation relies on crown diameter ($CD = \sqrt{W \cdot H}$) power-law scaling models.
 \begin{itemize}
-    \item \textbf{Jucker et al. (2016) Pantropical Allometry}: Derived from 2,000+ destructively weighed trees across four continents:
+    \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Allometry: Derived from 2,000+ destructively weighed trees across four continents:
     \begin{equation*}
     \ln(\text{AGB}_i) = \alpha + \beta \ln(CD_i) \implies \text{AGB}_i = \exp\left(-0.328 + 2.404 \ln(CD_i)\right) \quad [\text{kg dry matter}]
     \end{equation*}
     Total stand Above-Ground Biomass is $\text{AGB}_{\text{stand}} = \frac{1}{1000} \sum_{i=1}^N \text{AGB}_i$ [Metric Tonnes, Mg].
     \item \textbf{Carbon Stock \& $\text{CO}_{2\text{e}}$}: Dry biomass is $47\%$ elemental carbon (IPCC standard): $C_{\text{stock}} = \text{AGB}_{\text{stand}} \times 0.47$. Multiplying by the molecular weight ratio of $\text{CO}_2$ to carbon ($44/12 \approx 3.664$) yields equivalent atmospheric $\text{CO}_{2\text{e}}$ sequestered.
-    \item \textbf{Dual-Component Uncertainty Formulation}: At the individual stem level, allometry carries high residual variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). However, under the \textbf{Central Limit Theorem (CLT)}, uncorrelated random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. Crucially, pantropical models have a \textbf{systematic error floor} ($\sigma_{\text{sys}} \approx \pm 12.0\%$, Chave et al., 2014; Réjou-Méchain et al., 2017) due to regional wood density and climate taper variations that do not average to zero. Clover calculates combined stand uncertainty via root-sum-of-squares:
+    \item \textbf{Dual-Component Uncertainty Formulation}: At the individual stem level, allometry carries high residual variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). However, under the \textbf{Central Limit Theorem (CLT)}, uncorrelated random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. Crucially, pantropical models have a \textbf{systematic error floor} ($\sigma_{\text{sys}} \approx \pm 12.0\%$, \href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) due to regional wood density and climate taper variations that do not average to zero. Clover calculates combined stand uncertainty via root-sum-of-squares:
     \begin{equation*}
     \sigma_{\text{total}} = \sqrt{\sigma_{\text{stat}}^2 + \sigma_{\text{sys}}^2} = \sqrt{\left(\frac{56.5\%}{\sqrt{N_{\text{trees}}}}\right)^2 + (12.0\%)^2} \approx \mathbf{\pm 12.5\%\text{ to } 13.5\%}
     \end{equation*}
@@ -132,7 +132,7 @@ Following user-driven visual audit, we calibrated detector thresholds from conse
 \end{center}
 
 \vspace{-0.4em}
-\noindent\textbf{Independent Academic Validation}: On the OSBS ground-truth benchmark, the calibrated model maintained \textbf{zero false positives}, proving it uncovers suppressed trees without hallucinating. On Jadavpur University ($7.94\,\text{ha}$), the detected \textbf{218 trees} directly corroborates published handheld GPS field surveys (\textit{Bardhan \& Sarkar, Indian Forester, 2019}), which recorded campus tree densities of $30\text{--}40\,\text{stems/ha}$ ($\approx 240\text{--}280$ mature trees).
+\noindent\textbf{Independent Academic Validation}: On the OSBS ground-truth benchmark, the calibrated model maintained \textbf{zero false positives}, proving it uncovers suppressed trees without hallucinating. On Jadavpur University ($7.94\,\text{ha}$), the detected \textbf{218 trees} directly corroborates published handheld GPS field surveys (\href{https://doi.org/10.36808/if/2019/v145i3/144454}{\textit{Bardhan \& Sarkar, Indian Forester, 2019}}), which recorded campus tree densities of $30\text{--}40\,\text{stems/ha}$ ($\approx 240\text{--}280$ mature trees).
 
 \vspace{0.5em}
 % ==============================================================================
