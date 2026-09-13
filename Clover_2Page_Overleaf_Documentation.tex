@@ -50,63 +50,63 @@
 \end{center}
 \vspace{-0.6em}
 \hrule height 0.8pt
-\vspace{0.6em}
-
-% ==============================================================================
-% SECTION 1: EXECUTIVE SUMMARY & CORE PHILOSOPHY
-% ==============================================================================
-\noindent\textbf{\large 1. Executive Summary \& Core Philosophy}\\[0.3em]
-High-integrity Measurement, Reporting, and Verification (MRV) for nature-based carbon projects requires verifiable, physically consistent tree-level data. Traditional manual field surveys (sampling $1\text{--}2\%$ of plots with diameter tapes) are slow and logistically impractical over large landscapes. Conversely, commercial satellite AI platforms frequently overpromise: naively summing rectangular bounding boxes overestimates canopy area by $20\text{--}40\%$, while reporting uncalibrated carbon numbers with zero error bounds leads to registry audit rejections.
-
-\textbf{Clover} was built on the core principle stated in the Flora Carbon prompt: \textit{``In carbon markets, a rough tool that admits what it can't do is more valuable than a polished one that invents numbers.''} Clover ingests high-resolution satellite orthomosaics, enforces Ground Sampling Distance (GSD) physics gating, dissolves overlapping crown geometries into continuous non-overlapping footprints, applies peer-reviewed empirical sensor bias corrections, and propagates dual-component statistical uncertainty through pantropical allometric equations.
-
 \vspace{0.5em}
+
 % ==============================================================================
-% SECTION 2: END-TO-END PIPELINE ARCHITECTURE
+% SECTION 1: YOUR APPROACH & CORE PHILOSOPHY
 % ==============================================================================
-\noindent\textbf{\large 2. End-to-End Pipeline Architecture}\\[0.3em]
-Clover executes a six-stage, modular geospatial micro-pipeline built in Python (\texttt{canopy\_core}):
+\noindent\textbf{\large 1. Your Approach \& Core Philosophy}\\[0.25em]
+Counting trees from satellite imagery sounds simple, but commercial AI tools routinely overpromise: they draw rectangular boxes around trees, sum up the areas, and report inflated carbon numbers with zero error margins. In real carbon markets, registry audits (Verra, Gold Standard) reject these ungrounded estimates.
+
+\textbf{Clover} was built around Flora Carbon's core guideline: \textit{``A rough tool that admits what it can't do is more valuable than a polished one that invents numbers.''} Instead of guessing, Clover ingests high-resolution satellite orthomosaics, refuses to process imagery that is too blurry to resolve trees, trims the empty corners off rectangular boxes into true crown ovals, dissolves overlapping crowns so foliage is never double-counted, and propagates peer-reviewed statistical error bounds through allometric carbon models.
+
+\vspace{0.35em}
+% ==============================================================================
+% SECTION 2: ARCHITECTURE & END-TO-END WORKFLOW
+% ==============================================================================
+\noindent\textbf{\large 2. Architecture \& End-to-End Workflow}\\[0.25em]
+Clover executes a six-stage, transparent geospatial pipeline built in Python (\texttt{canopy\_core}):
 \begin{enumerate}
-    \item \textbf{Ingestion \& GSD Physics Gating}: Inspects raster affine metadata and calculates metric Ground Sampling Distance (GSD). GSD is categorized into three detection tiers: Tier 1 ($<0.15\,\text{m}$, UAV/drone), Tier 2 ($0.15\text{--}0.50\,\text{m}$, sub-meter satellite/aerial), and Tier 3 ($0.50\text{--}1.0\,\text{m}$, emergent crowns only). If an uploaded raster exceeds $1.0\,\text{m}$ (e.g., $10\,\text{m}$ Sentinel-2), an explicit warning blocks misleading single-tree claims where pixels physically blur multiple trees together.
-    \item \textbf{Metric Reprojection}: Converts unprojected geographic coordinates (WGS84, EPSG:4326) into local Universal Transverse Mercator (UTM) metric projections (e.g., EPSG:32645 for Kolkata). This eliminates equatorial latitude distortion ($\cos \phi$) so that all downstream distance and area calculations operate in true Euclidean square meters ($1 \times 1 = 1\,\text{m}^2$).
-    \item \textbf{Sliding-Window Tiling with 25\% Overlap Halo}: Large orthomosaics ($10,000 \times 10,000\,\text{px}$) cause out-of-memory (OOM) failures when processed whole. Clover slices rasters into $400 \times 400\,\text{px}$ tiles with a $25\%$ overlap halo ($100\,\text{px}$ margin, stride = $300\,\text{px}$). This guarantees that trees growing on tile seams are never severed or missed.
-    \item \textbf{Neural Tree Detection (DeepForest RetinaNet)}: Runs a ResNet-50 Feature Pyramid Network (FPN) pretrained on 30+ million tree crowns. The classification subnet uses Focal Loss ($\gamma = 2.0, \alpha = 0.25$) to handle extreme foreground-background class imbalance (where $98\%$ of pixels are background soil, grass, or roof).
-    \item \textbf{Global Boundary Non-Maximum Suppression (NMS)}: Predictions from overlapping tiles are re-projected to world coordinates. An NMS pass with $\text{IoU} = 0.30$ deduplicates border detections, keeping only the highest-confidence bounding box.
-    \item \textbf{Automated Hydrological Weed Purging}: An integrated color-index filter isolates waterbodies and detects free-floating invasive water hyacinth (\textit{Eichhornia crassipes}) in lakes and ponds, preventing false tree detections on water surfaces.
+    \item \textbf{Image Sharpness Check (GSD Physics Gate)}: Before running any AI, we calculate Ground Sampling Distance (GSD). If a pixel is coarser than $1.0\,\text{m}$ (like free $10\,\text{m}$ Sentinel-2 imagery), an entire mature tree is smaller than a single pixel. Clover rejects coarse rasters with an explicit warning rather than hallucinating fake single-tree detections.
+    \item \textbf{Metric Coordinate Projection}: GPS coordinates (latitude/longitude) measure angles in degrees, which warp physical distances away from the equator. We reproject imagery into local metric coordinates (e.g., UTM Zone 45N, EPSG:32645 for Kolkata) so that $1\,\text{pixel} \times 1\,\text{pixel}$ strictly represents real Euclidean square meters ($1\,\text{m}^2$).
+    \item \textbf{Sliding-Window Slicing (25\% Safety Overlap Halo)}: Giant gigapixel mosaics crash computer memory if ingested whole. Clover slices rasters into $400 \times 400\,\text{px}$ tiles with a $25\%$ border overlap ($100\,\text{px}$ margin), guaranteeing trees growing directly along tile seams are never severed.
+    \item \textbf{Crown Detection (DeepForest Neural Network)}: Runs a deep vision network (RetinaNet ResNet-50) trained on 30+ million crowns to locate individual trees, separating tree foliage from background grass, soil, and roofs.
+    \item \textbf{Deduplicating Seams (Boundary NMS)}: Overlapping tiles see boundary trees twice. Clover projects all tile detections back to real-world metric coordinates and applies Non-Maximum Suppression ($\text{IoU} = 0.30$) to keep only the single best detection per tree.
+    \item \textbf{Automated Pond Weed Filter}: Floating green mats of invasive water hyacinth (\textit{Eichhornia crassipes}) in urban lakes share foliar color with tree crowns. We automatically mask waterbodies so aquatic weeds are never counted as forest canopy.
 \end{enumerate}
 
-\vspace{0.5em}
+\vspace{0.35em}
 % ==============================================================================
-% SECTION 3: COMPUTATIONAL GEOMETRY & CANOPY COVER
+% SECTION 3: KEY TECHNICAL DECISIONS: COMPUTATIONAL GEOMETRY
 % ==============================================================================
-\noindent\textbf{\large 3. Computational Geometry of Canopy Cover}\\[0.3em]
-A central innovation in Clover is replacing naive bounding-box addition with rigorous spatial computational geometry:
+\noindent\textbf{\large 3. Key Technical Decisions: Computational Geometry of Canopy Cover}\\[0.25em]
+Instead of naive box addition, Clover implements three geometric principles grounded in forestry physics:
 \begin{itemize}
-    \item \textbf{The Circumscribed Ellipse Correction}: A tree crown viewed from nadir is approximately circular or elliptical. A bounding box of width $W$ and height $H$ has area $A_{\text{box}} = W \cdot H$. The inscribed ellipse has area $A_{\text{ellipse}} = \frac{\pi}{4} W H \approx 0.7854 \cdot A_{\text{box}}$. The four empty corners contain non-foliar dirt, grass, or pavement. Treating raw bounding boxes as canopy introduces an immediate deterministic $+21.46\%$ overestimation error. Clover analytically constructs Shapely geometric ellipse polygons.
-    \item \textbf{Topological Unary Union Dissolution ($\bigcup \mathcal{P}_i$)}: In closed stands and groves, tree branches interlock. Summing individual crown areas $\sum A_i$ counts shared foliage twice, often producing impossible canopy cover numbers ($>100\%$). Clover computes the exact spatial dissolution using GEOS sweep-line algorithms:
+    \item \textbf{The Box vs. Oval Problem (Trimming Empty Corners)}: AI bounding boxes are rectangles of area $W \times H$. Tree crowns are approximately circular or elliptical. The 4 empty corners of a box contain pavement, grass, or bare ground. Treating raw boxes as canopy introduces an immediate deterministic $\mathbf{+21.46\%}$ overestimation error ($1 - \pi/4 \approx 0.2146$). Clover analytically fits circumscribed Shapely ellipses ($\frac{\pi}{4} W H \approx 0.7854 \cdot A_{\text{box}}$) inside each box, removing empty corners.
+    \item \textbf{Merging Overlapping Branches (No Double-Counting)}: In natural groves, tree crowns intertwine. Naively summing individual areas $\sum A_i$ counts shared foliage twice, often producing impossible canopy covers ($>100\%$). Clover runs topological spatial dissolution using GEOS sweep-line algorithms:
     \begin{equation*}
     \mathcal{C}_{\text{dissolved}} = \bigcup_{i=1}^N \mathcal{P}_i \implies \text{Canopy Cover \%} = \frac{\text{Area}(\mathcal{C}_{\text{dissolved}} \cap \mathcal{A}_{\text{AOI}})}{\text{Area}(\mathcal{A}_{\text{AOI}})} \times 100\%
     \end{equation*}
-    \item \textbf{\href{https://doi.org/10.1093/pnasnexus/pgad076}{Li et al. (PNAS Nexus 2023)} +20\% Empirical Bias Calibration}: Optical RGB sensors capture the dense sunlit core of a crown but miss semi-translucent peripheral twigs and sun-bleached branch tips. Field LiDAR comparisons by Li et al. (2023) established that 2D optical models underestimate true crown projection by $\approx 20\%$. Clover applies this $+20\%$ calibration factor to report both raw and calibrated canopy footprints.
+    \item \textbf{Capturing Faded Branch Tips (\href{https://doi.org/10.1093/pnasnexus/pgad076}{Li et al., PNAS Nexus 2023})}: 2D optical cameras capture the dense sunlit core of a crown but miss semi-translucent peripheral twigs and sun-bleached branch tips. Field LiDAR comparisons by Li et al. (2023) established that 2D optical models underestimate real crown projection by $\approx 20\%$. Clover applies this $+20\%$ calibration to report both raw and calibrated canopy footprints.
 \end{itemize}
 
 \newpage % STRICT PAGE 2 SPLIT
 
 % ==============================================================================
-% SECTION 4: PANTROPICAL ALLOMETRY & DUAL UNCERTAINTY
+% SECTION 4: ALLOMETRY & HONEST UNCERTAINTY BOUNDS
 % ==============================================================================
-\noindent\textbf{\large 4. Pantropical Allometry \& Dual-Component Uncertainty Propagation}\\[0.2em]
-Because satellites cannot directly measure trunk diameter ($DBH$) or wood density ($\rho$) under a canopy, biomass estimation relies on crown diameter ($CD = \sqrt{W \cdot H}$) power-law models.
+\noindent\textbf{\large 4. Allometry \& Dual-Component Uncertainty (Why Zero-Error is a Lie)}\\[0.2em]
+Satellites see trees from above — they cannot measure the thickness of a trunk ($DBH$) or wood density ($\rho$) hidden beneath leaves. We convert crown diameter ($CD = \sqrt{W \cdot H}$) into wood weight using peer-reviewed pantropical power laws:
 \begin{itemize}
-    \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Allometry: Calibrated on 2,000+ destructively harvested trees: $\ln(\text{AGB}_i) = \alpha + \beta \ln(CD_i) \implies \text{AGB}_i = \exp\left(-0.328 + 2.404 \ln(CD_i)\right)$ [kg dry matter]. Stand biomass is $\text{AGB}_{\text{stand}} = \frac{1}{1000} \sum_{i=1}^N \text{AGB}_i$ [Mg].
+    \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Biomass: Calibrated on 2,000+ destructively weighed trees across 4 continents: $\ln(\text{AGB}_i) = \alpha + \beta \ln(CD_i) \implies \text{AGB}_i = \exp\left(-0.328 + 2.404 \ln(CD_i)\right)$ [kg dry wood]. Stand biomass is $\text{AGB}_{\text{stand}} = \frac{1}{1000} \sum_{i=1}^N \text{AGB}_i$ [Mg].
     \item \textbf{Carbon Stock \& $\text{CO}_{2\text{e}}$}: Dry biomass is $47\%$ elemental carbon (IPCC standard): $C_{\text{stock}} = \text{AGB}_{\text{stand}} \times 0.47$. Multiplying by molecular weight ratio ($44/12 \approx 3.664$) yields equivalent atmospheric $\text{CO}_{2\text{e}}$ sequestered.
-    \item \textbf{Dual-Component Uncertainty Formulation}: At the individual stem level, allometry carries high residual variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). Under the \textbf{Central Limit Theorem (CLT)}, uncorrelated random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. Crucially, pantropical models carry an irreducible \textbf{systematic error floor} ($\sigma_{\text{sys}} \approx \pm 12.0\%$, \href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) due to regional wood density and taper variations that do not average to zero:
+    \item \textbf{Dual-Component Uncertainty Formulation}: Estimating weight from crown width alone carries high single-tree random variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). Under the \textbf{Central Limit Theorem (CLT)}, random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. However, regional wood density and tree shapes vary across geography, creating an irreducible \textbf{systematic error floor of $\pm 12.0\%$} (\href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) that *never* averages away, no matter how many trees you count:
     \vspace{-0.25em}
     \begin{equation*}
     \sigma_{\text{total}} = \sqrt{\sigma_{\text{stat}}^2 + \sigma_{\text{sys}}^2} = \sqrt{\left(\frac{56.5\%}{\sqrt{N_{\text{trees}}}}\right)^2 + (12.0\%)^2} \approx \mathbf{\pm 12.5\%\text{ to } 13.5\%}
     \end{equation*}
     \vspace{-0.25em}
-    This guarantees that large stands asymptote to an audit-defensible, honest error bracket rather than claiming unscientific zero-error precision.
+    Rather than claiming unscientific 100\% exactness, Clover outputs an audit-defensible error bracket accepted by carbon registries.
 \end{itemize}
 
 \vspace{0.2em}
@@ -114,9 +114,9 @@ Because satellites cannot directly measure trunk diameter ($DBH$) or wood densit
 % SECTION 5: WHAT WORKED (EMPIRICAL BENCHMARK & GROUND VALIDATION)
 % ==============================================================================
 \noindent\textbf{\large 5. What Worked: Empirical Calibration \& Ground Validation}\\[0.2em]
-Following visual audit, we calibrated detector thresholds from conservative defaults ($\text{score}=0.25, \text{IoU}=0.25, \text{halo}=20\%$) to an optimized high-recall pipeline ($\text{score}=0.15, \text{IoU}=0.30, \text{halo}=25\%$).
+Visual checks revealed that default settings were too timid, missing smaller trees in dense campus thickets. Calibrating detector thresholds from conservative settings ($\text{score}=0.25, \text{IoU}=0.25$) to a tuned high-recall pipeline ($\text{score}=0.15, \text{IoU}=0.30$) achieved breakthrough gains:
 \begin{itemize}
-    \item \textbf{Recall Doubled with Zero False Positives}: On the OSBS benchmark, calibrated inference detected 55/55 trees with \textbf{0.0\% false positive rate} ($0.22\,\text{s}$). On Jadavpur University, recall rose $+109.6\%$ (104 $\to$ \textbf{218} crowns) resolving dense campus thickets.
+    \item \textbf{Recall Doubled with Zero False Positives}: On the OSBS ground-truth benchmark, calibrated inference found 55/55 trees with \textbf{0.0\% false positive rate} ($0.22\,\text{s}$). On Jadavpur University, recall rose $+109.6\%$ (104 $\to$ \textbf{218} crowns) resolving dense campus thickets.
     \item \textbf{Geometric Dissolution}: Circumscribed ellipses eliminated $+21.46\%$ box area bias, and \texttt{shapely.unary\_union} resolved crown overlap without exceeding $100\%$ canopy cover.
 \end{itemize}
 
@@ -138,28 +138,28 @@ Following visual audit, we calibrated detector thresholds from conservative defa
 
 \vspace{-0.5em}
 % ==============================================================================
-% SECTION 6: WHAT DIDN'T (FAILED EXPERIMENTS & NEGATIVE DISCLOSURES)
+% SECTION 6: WHAT DIDN'T (FAILED EXPERIMENTS & HONEST DISCLOSURES)
 % ==============================================================================
 \noindent\textbf{\large 6. What Didn't: Failed Experiments \& Honest Disclosures}\\[0.2em]
-High-integrity MRV requires disclosing failed engineering paths:
+High-integrity engineering requires openly disclosing failed paths and real-world hurdles:
 \begin{enumerate}
-    \item \textbf{Single-Scale Conservative Thresholding}: Default $\text{score}=0.25$ missed over $50\%$ of suppressed crowns in dense urban thickets (only 104 trees at Jadavpur), grouping multi-stem clusters into single detections.
-    \item \textbf{High-Resolution Over-Zoom ($1.75\times$)}: Artificial magnification caused catastrophic over-segmentation ($539$ crowns), falsely splitting primary structural branches and fork bifurcations into multiple fake trees.
-    \item \textbf{Hydrological Weed False Positives}: Floating mats of invasive water hyacinth (\textit{Eichhornia crassipes}) in urban lakes shared spectral reflectance with tree crowns, requiring an automated hydrological mask.
-    \item \textbf{Paywalled Ground Plot Truth}: While \href{https://doi.org/10.36808/if/2019/v145i3/144454}{\textit{Bardhan \& Sarkar (2019)}} confirms Simpson's index $0.91$ and $3.28\,\text{t C/yr}$ for Jadavpur, full stem census counts remain behind a paywall; we openly document this data barrier rather than inventing numbers.
+    \item \textbf{Conservative Default Thresholds}: The standard $0.25$ confidence cut-off missed over $50\%$ of suppressed crowns in dense urban thickets (only 104 trees at Jadavpur), grouping multi-stem clusters into single detections.
+    \item \textbf{High-Resolution Over-Zoom ($1.75\times$)}: Trying to find small trees by digitally magnifying imagery caused catastrophic over-splitting ($539$ crowns on Jadavpur) — the model mistook large primary branches and fork splits for separate trees.
+    \item \textbf{Pond Weeds Counted as Trees}: Floating mats of invasive water hyacinth (\textit{Eichhornia crassipes}) in urban lakes shared foliar color with tree crowns, triggering false detections until we added an automated hydrological mask.
+    \item \textbf{The Ground Census Paywall}: An independent paper mapped Jadavpur University trees (\href{https://doi.org/10.36808/if/2019/v145i3/144454}{\textit{Bardhan \& Sarkar, 2019}}), verifying Simpson's diversity index $0.91$ and $3.28\,\text{t C/yr}$ storage. However, their stem-count table is locked behind a paywall; rather than fabricating numbers, we openly document this data boundary.
 \end{enumerate}
 
 \vspace{0.2em}
 % ==============================================================================
-% SECTION 7: KNOWN PHYSICAL LIMITATIONS (MRV AUDIT DEFENSE)
+% SECTION 7: KNOWN PHYSICAL LIMITATIONS (WHAT AI CANNOT DO)
 % ==============================================================================
-\noindent\textbf{\large 7. Known Physical Limitations (MRV Audit Defense)}\\[0.2em]
-In accordance with voluntary carbon market principles, Clover explicitly establishes four immutable physical limits:
+\noindent\textbf{\large 7. Known Physical Limitations (What Optical AI Physically Cannot Do)}\\[0.2em]
+In accordance with carbon market principles, Clover explicitly discloses four immutable physical limits:
 \begin{enumerate}
-    \item \textbf{Optical Subcanopy Blindness}: 2D optical sensors cannot penetrate the dominant canopy layer. Suppressed saplings and shrubs ($\approx 10\text{--}15\%$ biomass) are invisible without 3D LiDAR.
-    \item \textbf{Closed Canopy Saturation}: In dense tropical rainforests, tree crowns form an unbroken ceiling where discrete stem boundaries physically do not exist; dissolved canopy area ($m^2$) is the only valid metric.
-    \item \textbf{Regional Systematic Allometric Floor ($\pm 12\%$)}: Allometric equations cannot be perfected by satellite imagery alone. Regional wood density and stem-taper variations (\href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}) introduce an irreducible $\pm 12\%$ systematic error floor that never averages to zero.
-    \item \textbf{Solar Shadows \& Phenology}: Low sun angles cast long building/tree shadows that obscure foliar textures, while winter leaf-off states drop recall; tasking must enforce peak NDVI seasons.
+    \item \textbf{Optical Subcanopy Blindness}: Satellites only photograph the top canopy layer. Small saplings and shrubs growing underneath large dominant trees ($\approx 10\text{--}15\%$ of biomass) are invisible without airborne laser scanning (3D LiDAR).
+    \item \textbf{Closed Canopy Saturation}: In dense tropical rainforests, tree crowns merge into an unbroken green ceiling where individual borders physically do not exist. Individual tree counts break down; dissolved continuous canopy area ($m^2$) is the only valid metric.
+    \item \textbf{The Unavoidable $\pm 12\%$ Regional Error Floor}: Satellite cameras cannot weigh wood. Differences in regional wood density create an unavoidable $\pm 12\%$ error floor that cannot be eliminated without destructive field harvesting.
+    \item \textbf{Winter Leaves \& Long Shadows}: Bare branches during winter leaf-off periods and long shadows cast by tall buildings obscure leaves and lower detection recall; imagery must be scheduled during peak green seasons.
 \end{enumerate}
 
 \vspace{0.2em}
