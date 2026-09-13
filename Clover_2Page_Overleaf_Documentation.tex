@@ -1,13 +1,12 @@
 \documentclass[10pt,a4paper]{article}
 
 % --- Geometry & Spacing (Engineered strictly for exact 2 pages) ---
-\usepackage[margin=0.46in,top=0.38in,bottom=0.38in]{geometry}
+\usepackage[margin=0.44in,top=0.34in,bottom=0.34in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{xcolor}
-\usepackage{tcolorbox}
 \usepackage{enumitem}
 \usepackage{microtype}
 \usepackage{graphicx}
@@ -96,31 +95,21 @@ Instead of naive box addition, Clover implements three geometric principles grou
 % SECTION 4: ALLOMETRY & HONEST UNCERTAINTY BOUNDS
 % ==============================================================================
 \noindent\textbf{\large 4. Allometry \& Dual-Component Uncertainty (Why Zero-Error is a Lie)}\\[0.2em]
-Satellites see trees from above — they cannot measure the thickness of a trunk ($DBH$) or wood density ($\rho$) hidden beneath leaves. We convert crown diameter ($CD = \sqrt{W \cdot H}$) into wood weight using peer-reviewed pantropical power laws:
+Satellites see trees from above — they cannot measure trunk diameter ($DBH$) or wood density ($\rho$) hidden beneath leaves. We convert crown diameter ($CD = \sqrt{W \cdot H}$) into wood weight using peer-reviewed pantropical power laws:
 \begin{itemize}
     \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Biomass: Calibrated on 2,000+ destructively weighed trees across 4 continents: $\ln(\text{AGB}_i) = \alpha + \beta \ln(CD_i) \implies \text{AGB}_i = \exp\left(-0.328 + 2.404 \ln(CD_i)\right)$ [kg dry wood]. Stand biomass is $\text{AGB}_{\text{stand}} = \frac{1}{1000} \sum_{i=1}^N \text{AGB}_i$ [Mg].
     \item \textbf{Carbon Stock \& $\text{CO}_{2\text{e}}$}: Dry biomass is $47\%$ elemental carbon (IPCC standard): $C_{\text{stock}} = \text{AGB}_{\text{stand}} \times 0.47$. Multiplying by molecular weight ratio ($44/12 \approx 3.664$) yields equivalent atmospheric $\text{CO}_{2\text{e}}$ sequestered.
-    \item \textbf{Dual-Component Uncertainty Formulation}: Estimating weight from crown width alone carries high single-tree random variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). Under the \textbf{Central Limit Theorem (CLT)}, random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. However, regional wood density and tree shapes vary across geography, creating an irreducible \textbf{systematic error floor of $\pm 12.0\%$} (\href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) that *never* averages away, no matter how many trees you count:
-    \vspace{-0.25em}
-    \begin{equation*}
-    \sigma_{\text{total}} = \sqrt{\sigma_{\text{stat}}^2 + \sigma_{\text{sys}}^2} = \sqrt{\left(\frac{56.5\%}{\sqrt{N_{\text{trees}}}}\right)^2 + (12.0\%)^2} \approx \mathbf{\pm 12.5\%\text{ to } 13.5\%}
-    \end{equation*}
-    \vspace{-0.25em}
-    Rather than claiming unscientific 100\% exactness, Clover outputs an audit-defensible error bracket accepted by carbon registries.
+    \item \textbf{Dual-Component Uncertainty Formulation}: Estimating weight from crown width alone carries single-tree random variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). Under the \textbf{Central Limit Theorem (CLT)}, random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. However, regional wood density and tree shapes vary across geography, creating an irreducible \textbf{systematic error floor of $\pm 12.0\%$} (\href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) that never averages away: $\sigma_{\text{total}} = \sqrt{\sigma_{\text{stat}}^2 + \sigma_{\text{sys}}^2} = \sqrt{(56.5\%/\sqrt{N_{\text{trees}}})^2 + (12.0\%)^2} \approx \mathbf{\pm 12.5\%\text{ to } 13.5\%}$. Rather than claiming unscientific 100\% exactness, Clover outputs an audit-defensible error bracket accepted by carbon registries.
 \end{itemize}
 
-\vspace{0.2em}
+\vspace{0.15em}
 % ==============================================================================
 % SECTION 5: WHAT WORKED (EMPIRICAL BENCHMARK & GROUND VALIDATION)
 % ==============================================================================
 \noindent\textbf{\large 5. What Worked: Empirical Calibration \& Ground Validation}\\[0.2em]
-Visual checks revealed that default settings were too timid, missing smaller trees in dense campus thickets. Calibrating detector thresholds from conservative settings ($\text{score}=0.25, \text{IoU}=0.25$) to a tuned high-recall pipeline ($\text{score}=0.15, \text{IoU}=0.30$) achieved breakthrough gains:
-\begin{itemize}
-    \item \textbf{Recall Doubled with Zero False Positives}: On the OSBS ground-truth benchmark, calibrated inference found 55/55 trees with \textbf{0.0\% false positive rate} ($0.22\,\text{s}$). On Jadavpur University, recall rose $+109.6\%$ (104 $\to$ \textbf{218} crowns) resolving dense campus thickets.
-    \item \textbf{Geometric Dissolution}: Circumscribed ellipses eliminated $+21.46\%$ box area bias, and \texttt{shapely.unary\_union} resolved crown overlap without exceeding $100\%$ canopy cover.
-\end{itemize}
+Visual checks revealed default settings were too timid, missing smaller trees in dense thickets. Calibrating detector thresholds ($\text{score}=0.15, \text{IoU}=0.30, \text{halo}=25\%$) doubled recall at Jadavpur University (+109.6\%, 104 $\to$ \textbf{218} crowns) while finding 55/55 trees with \textbf{0.0\% false positive rate} on the OSBS ground-truth benchmark ($0.22\,\text{s}$):
 
-\vspace{-0.4em}
+\vspace{-0.2em}
 \begin{center}
 \footnotesize
 \begin{tabular}{@{}lcccc@{}}
@@ -136,7 +125,7 @@ Visual checks revealed that default settings were too timid, missing smaller tre
 \end{tabular}
 \end{center}
 
-\vspace{-0.5em}
+\vspace{-0.4em}
 % ==============================================================================
 % SECTION 6: WHAT DIDN'T (FAILED EXPERIMENTS & HONEST DISCLOSURES)
 % ==============================================================================
@@ -149,7 +138,7 @@ High-integrity engineering requires openly disclosing failed paths and real-worl
     \item \textbf{The Ground Census Paywall}: An independent paper mapped Jadavpur University trees (\href{https://doi.org/10.36808/if/2019/v145i3/144454}{\textit{Bardhan \& Sarkar, 2019}}), verifying Simpson's diversity index $0.91$ and $3.28\,\text{t C/yr}$ storage. However, their stem-count table is locked behind a paywall; rather than fabricating numbers, we openly document this data boundary.
 \end{enumerate}
 
-\vspace{0.2em}
+\vspace{0.15em}
 % ==============================================================================
 % SECTION 7: KNOWN PHYSICAL LIMITATIONS (WHAT AI CANNOT DO)
 % ==============================================================================
@@ -162,10 +151,10 @@ In accordance with carbon market principles, Clover explicitly discloses four im
     \item \textbf{Winter Leaves \& Long Shadows}: Bare branches during winter leaf-off periods and long shadows cast by tall buildings obscure leaves and lower detection recall; imagery must be scheduled during peak green seasons.
 \end{enumerate}
 
-\vspace{0.2em}
-\begin{calloutbox}{Two Production Deployment Modalities}
-\footnotesize
-\textbf{Live Cloud Web App}: \href{https://tryclover.streamlit.app}{\textbf{tryclover.streamlit.app}} (Mapbox GIS layers, screenshot paste, GeoJSON/CSV export). \quad$\vert$\quad \textbf{Local Fast Run}: \texttt{git clone https://github.com/soumomo/clover \&\& uv run streamlit run app.py} ($<2\,\text{s}$ startup).
-\end{calloutbox}
+\vspace{0.15em}
+\noindent\fcolorbox{forest!80!black}{forest!6!white}{%
+\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+\footnotesize\textbf{\color{forest}Two Production Deployment Modalities:} \textbf{Live Cloud Web App}: \href{https://tryclover.streamlit.app}{\textbf{tryclover.streamlit.app}} (Mapbox GIS layers, screenshot paste, GeoJSON/CSV export). \quad$\vert$\quad \textbf{Local Fast Run}: \texttt{git clone https://github.com/soumomo/clover \&\& uv run streamlit run app.py} ($<2\,\text{s}$).%
+}}
 
 \end{document}
