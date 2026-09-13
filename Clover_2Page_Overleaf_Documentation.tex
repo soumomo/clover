@@ -10,6 +10,8 @@
 \usepackage{tcolorbox}
 \usepackage{enumitem}
 \usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{fontawesome5}
 
 % --- Compact List Spacing ---
 \setlist{nosep,leftmargin=1.2em}
@@ -42,9 +44,9 @@
 % HEADER
 % ==============================================================================
 \begin{center}
-    {\textbf{\Large \color{forest} CLOVER: Sub-Meter Optical Canopy Delineation \& Carbon MRV}}\\[0.25em]
+    {\IfFileExists{assets/clover_logo_trans.png}{\raisebox{-0.15em}{\includegraphics[height=1.4em]{assets/clover_logo_trans.png}}\hspace{0.35em}}{\IfFileExists{clover_logo_trans.png}{\raisebox{-0.15em}{\includegraphics[height=1.4em]{clover_logo_trans.png}}\hspace{0.35em}}{}}\textbf{\Large \color{forest} CLOVER: Sub-Meter Optical Canopy Delineation \& Carbon MRV}}\\[0.25em]
     {\textbf{\small 2-Page Technical Solution \& Methodology Explanation $\cdot$ Flora Carbon Hackathon 2026}}\\[0.2em]
-    {\footnotesize \textbf{Author:} Soumodeep Karmakar \quad$\vert$\quad \textbf{Live Demo:} \href{https://tryclover.streamlit.app}{tryclover.streamlit.app} \quad$\vert$\quad \textbf{Code:} \href{https://github.com/soumomo/clover}{github.com/soumomo/clover}}
+    {\footnotesize \textbf{Author:} Soumodeep Karmakar \quad$\vert$\quad \textbf{Live Demo:} \href{https://tryclover.streamlit.app}{\faGlobe\ tryclover.streamlit.app} \quad$\vert$\quad \textbf{Code:} \href{https://github.com/soumomo/clover}{\faGithub\ github.com/soumomo/clover}}
 \end{center}
 \vspace{-0.6em}
 \hrule height 0.8pt
