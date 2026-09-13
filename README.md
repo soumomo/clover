@@ -1,13 +1,13 @@
 # Clover · Sub-Meter Optical Canopy Delineation & Carbon MRV
 
+Clover is an institutional-grade remote sensing and ecological AI platform for individual tree crown delineation, dissolved topological canopy accounting, and transparent pantropical carbon stock MRV.
+
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.40%2B-FF4B4B.svg)](https://streamlit.io)
 [![DeepForest](https://img.shields.io/badge/DeepForest-2.1-22C55E.svg)](https://deepforest.readthedocs.io/)
 [![Standards](https://img.shields.io/badge/Standards-Verra%20VM0047%20%7C%20IPCC%20Tier%202-166534.svg)](https://verra.org/methodologies/vm0047-afforestation-reforestation-and-revegetation-v1-0/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
-
-> **Clover** is an institutional-grade remote sensing and ecological AI engine for individual tree crown delineation, dissolved topological canopy accounting, and transparent aboveground biomass (AGB) and carbon stock MRV (Measurement, Reporting, and Verification).
 
 ---
 
@@ -45,7 +45,7 @@
 
 ## Quickstart (Powered by `uv`)
 
-Clover uses [**`uv`**](https://github.com/astral-sh/uv), the extremely fast Python package and project manager. No manual virtualenv management or slow `pip` compilation needed.
+This project uses [**`uv`**](https://github.com/astral-sh/uv), the extremely fast Python package and project manager. No manual virtualenv management or slow `pip` compilation needed.
 
 ### 1. Install `uv` (if not already installed)
 ```bash
