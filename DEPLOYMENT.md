@@ -1,76 +1,44 @@
 # Clover Deployment & Hosting Guide
 
-This guide details all methods to host and deploy the **Clover** canopy delineation & carbon MRV platform.
+This guide details all methods to host and run the **Clover** canopy delineation & carbon MRV platform.
 
 ---
 
-## 1. Instant Public Access (Live Now)
+## 1. Live Production Cloud (Official)
 
-A Cloudflare Tunnel is running locally, providing a global HTTPS endpoint with zero configuration:
+Clover is hosted and running 24/7 on Streamlit Community Cloud with automatic continuous deployment from GitHub:
 
-> 🌐 **Live URL:** [https://meal-society-described-incident.trycloudflare.com](https://meal-society-described-incident.trycloudflare.com)
+> 🌐 **Live URL:** **[https://tryclover.streamlit.app](https://tryclover.streamlit.app)**
 
-- **SSL:** Enabled (Cloudflare edge certificate).
-- **WebSockets:** Full real-time support for Streamlit widgets and Folium maps.
-- **Access:** Can be opened directly from any mobile device, tablet, or external network.
-
-To start or restart the tunnel anytime:
-```bash
-cloudflared tunnel --url http://localhost:8501
-```
+* **Uptime**: 24/7 high-availability cloud container.
+* **Security**: Enforced TLS/SSL HTTPS.
+* **Auto-Sync**: Pushing to branch `main` automatically hot-reloads the production app.
 
 ---
 
-## 2. Streamlit Community Cloud (Recommended for Hackathons)
+## 2. Local High-Performance Execution with `uv`
 
-Streamlit Community Cloud offers free, permanent hosting directly connected to your GitHub repository.
-
-### Prerequisites in this repo:
-- `app.py` (Main entry point)
-- `requirements.txt` (Python packages)
-- `packages.txt` (Debian system libraries: GDAL, Mesa GL)
-- `.streamlit/config.toml` (Theme & server settings)
-
-### Steps to Deploy:
-1. **Initialize Git and Push to GitHub:**
-   ```bash
-   git init
-   git add .
-   git commit -m "feat: Clover AI canopy delineation platform"
-   git branch -M main
-   # Create a repo on github.com, then:
-   git remote add origin https://github.com/<your-username>/clover-canopy-tool.git
-   git push -u origin main
-   ```
-
-2. **Deploy on Streamlit Cloud:**
-   - Go to [share.streamlit.io](https://share.streamlit.io/) and sign in with GitHub.
-   - Click **"New app"**.
-   - Select your repository: `<your-username>/clover-canopy-tool`.
-   - Set **Branch**: `main`.
-   - Set **Main file path**: `app.py`.
-   - Click **"Deploy!"**.
-
-Streamlit Cloud will automatically read `packages.txt` to install GDAL and `requirements.txt` to install the DeepForest/PyTorch stack.
-
----
-
-## 3. Local High-Performance Execution with `uv`
-
-Clover uses `uv` for sub-second dependency resolution and isolated execution without pip bloat:
+Clover uses `uv` for sub-second dependency resolution, deterministic builds via `uv.lock`, and isolated execution:
 
 ```bash
-# Clone & run directly in 1 command
-uv run streamlit run app.py
+# Clone the repository
+git clone https://github.com/soumomo/clover.git
+cd clover
 
-# Or sync dependencies deterministically via uv.lock
-uv sync
+# Run directly in 1 command (uv auto-provisions the environment)
 uv run streamlit run app.py
 ```
+Open `http://localhost:8501` in your browser.
+
+> [!TIP]
+> To deterministically install exact locked dependencies from `uv.lock`:
+> ```bash
+> uv sync
+> uv run streamlit run app.py
+> ```
 
 ---
-
-## 4. Containerized Deployment (Render, Railway, GCP Cloud Run, AWS ECS)
+## 3. Containerized Deployment (Docker / Cloud Run / Railway)
 
 The included `Dockerfile` builds a production-ready Debian image with GDAL and OpenCV.
 

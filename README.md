@@ -4,7 +4,7 @@ Clover is an institutional-grade remote sensing and ecological AI platform for i
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.40%2B-FF4B4B.svg)](https://streamlit.io)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://tryclover.streamlit.app)
 [![DeepForest](https://img.shields.io/badge/DeepForest-2.1-22C55E.svg)](https://deepforest.readthedocs.io/)
 [![Standards](https://img.shields.io/badge/Standards-Verra%20VM0047%20%7C%20IPCC%20Tier%202-166534.svg)](https://verra.org/methodologies/vm0047-afforestation-reforestation-and-revegetation-v1-0/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
@@ -43,11 +43,24 @@ Clover is an institutional-grade remote sensing and ecological AI platform for i
 
 ---
 
-## Quickstart (Powered by `uv`)
+## How to Run Clover
 
-This project uses [**`uv`**](https://github.com/astral-sh/uv), the extremely fast Python package and project manager. No manual virtualenv management or slow `pip` compilation needed.
+You have two simple ways to use Clover:
 
-### 1. Install `uv` (if not already installed)
+### Option 1: Live Cloud Application (Instant — 0 Setup)
+The official version of Clover is hosted 24/7 on Streamlit Community Cloud:
+
+👉 **[https://tryclover.streamlit.app](https://tryclover.streamlit.app)**
+
+* Zero installation required.
+* High-resolution presets, custom GeoTIFF upload, interactive satellite maps, and instant CSV/GeoJSON exports.
+
+---
+
+### Option 2: Run Locally on Your Machine (Powered by `uv`)
+For offline field deployments, local GPU acceleration, or custom drone mapping pipelines, run Clover locally using [**`uv`**](https://github.com/astral-sh/uv), the extremely fast Python package manager.
+
+#### 1. Install `uv` (if not already installed)
 ```bash
 # macOS / Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -56,13 +69,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 brew install uv
 ```
 
-### 2. Clone & Launch in One Step
+#### 2. Clone & Run in One Command
 ```bash
 # Clone the repository
 git clone https://github.com/soumomo/clover.git
 cd clover
 
-# Run directly (uv automatically resolves pyproject.toml & creates an isolated environment)
+# Run directly (uv automatically creates an isolated environment & runs Streamlit)
 uv run streamlit run app.py
 ```
 Open `http://localhost:8501` in your browser.
@@ -73,21 +86,6 @@ Open `http://localhost:8501` in your browser.
 > uv sync
 > uv run streamlit run app.py
 > ```
-
----
-
-## Share Locally via Secure Cloudflare Tunnel
-
-To share your live local session with remote reviewers or judges without uploading to third-party platforms:
-
-```bash
-# Install cloudflared (macOS)
-brew install cloudflared
-
-# Launch an instant public HTTPS tunnel to your local port 8501
-cloudflared tunnel --url http://localhost:8501
-```
-Cloudflare will output an active public URL (e.g. `https://your-name.trycloudflare.com`) routing directly to your machine.
 
 ---
 
