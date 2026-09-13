@@ -836,7 +836,7 @@ PRESET_CONFIGS = {
     },
     "jadavpur_university": {
         "name": "Jadavpur University Main Campus",
-        "badge": "02 · INSTITUTIONAL CANOPY",
+        "badge": "02 · URBAN CAMPUS",
         "description": "7.94 ha dense academic campus with multi-story buildings, walkways, and mature tropical banyan, rain, and mahogany trees.",
         "tif_path": "data/samples/jadavpur_university.tif",
         "default_gsd": 0.27,

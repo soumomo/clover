@@ -124,7 +124,7 @@ graph TD
   - On Kolkata Central Park ($N = 80$ trees): $\sigma_{\text{stand}} = \frac{56.5\%}{\sqrt{80}} = \mathbf{\pm 6.3\%}$.
   - Stand Biomass: **$5.55\text{ Mg AGB } \pm 0.35\text{ Mg}$** ($[5.20\text{ Mg}, 5.90\text{ Mg}]$).
   - Stand Carbon Stock: **$2.61\text{ Mg C } \pm 0.16\text{ Mg C}$**.
-  - This turns an unauditable estimate into an audit-ready, institutional confidence interval.
+  - This turns an unauditable estimate into an audit-ready, statistically calibrated confidence interval.
 
 ---
 
@@ -145,7 +145,7 @@ graph TD
 ## 4. Site-by-Site Field Test Gallery & Empirical Metrics
 
 ### Site 1: Jadavpur University Main Campus (Kolkata)
-- **Characteristics**: Dense institutional urban campus with multi-story academic buildings, walkways, parking areas, and mature tropical urban banyan, mahogany, and rain trees.
+- **Characteristics**: Dense academic urban campus with multi-story buildings, walkways, parking areas, and mature tropical urban banyan, mahogany, and rain trees.
 - **Area**: $7.94\text{ hectares}$ ($1050 \times 1018\text{ px}$ at $27\text{ cm GSD}$, `EPSG:32645`).
 - **Results**:
   - **Detected Stems**: **82 mature trees** ($10.3\text{ stems/ha}$).

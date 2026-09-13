@@ -1,6 +1,6 @@
 # Clover · Sub-Meter Optical Canopy Delineation & Carbon MRV
 
-Clover is an institutional-grade remote sensing and ecological AI platform for individual tree crown delineation, dissolved topological canopy accounting, and transparent pantropical carbon stock MRV.
+Clover is an auditable, scientifically calibrated remote sensing and ecological AI platform for individual tree crown delineation, dissolved topological canopy accounting, and transparent pantropical carbon stock MRV.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
