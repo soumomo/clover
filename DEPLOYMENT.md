@@ -55,19 +55,18 @@ Streamlit Cloud will automatically read `packages.txt` to install GDAL and `requ
 
 ---
 
-## 3. Hugging Face Spaces (Free Cloud Hosting)
+## 3. Local High-Performance Execution with `uv`
 
-Hugging Face Spaces supports Streamlit apps out of the box.
+Clover uses `uv` for sub-second dependency resolution and isolated execution without pip bloat:
 
-1. Go to [huggingface.co/spaces](https://huggingface.co/spaces) and click **"Create new Space"**.
-2. Space name: `clover-carbon-mrv`.
-3. Select **Streamlit** as the Space SDK.
-4. Set hardware: **CPU basic (free)** or **T4 GPU**.
-5. Push your code:
-   ```bash
-   git remote add hf https://huggingface.co/spaces/<your-username>/clover-carbon-mrv
-   git push hf main
-   ```
+```bash
+# Clone & run directly in 1 command
+uv run streamlit run app.py
+
+# Or sync dependencies deterministically via uv.lock
+uv sync
+uv run streamlit run app.py
+```
 
 ---
 

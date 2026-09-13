@@ -11,3 +11,4 @@ venv/
 .coverage
 htmlcov/
 hf_space/
+*.egg-info/

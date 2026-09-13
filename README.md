@@ -1,6 +1,7 @@
 # Clover · Sub-Meter Optical Canopy Delineation & Carbon MRV
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.40%2B-FF4B4B.svg)](https://streamlit.io)
 [![DeepForest](https://img.shields.io/badge/DeepForest-2.1-22C55E.svg)](https://deepforest.readthedocs.io/)
 [![Standards](https://img.shields.io/badge/Standards-Verra%20VM0047%20%7C%20IPCC%20Tier%202-166534.svg)](https://verra.org/methodologies/vm0047-afforestation-reforestation-and-revegetation-v1-0/)
@@ -42,42 +43,51 @@
 
 ---
 
-## Quickstart
+## Quickstart (Powered by `uv`)
 
-### Prerequisites
-- Python 3.10, 3.11, or 3.12 (Apple Silicon M-series GPU / CUDA / CPU supported)
+Clover uses [**`uv`**](https://github.com/astral-sh/uv), the extremely fast Python package and project manager. No manual virtualenv management or slow `pip` compilation needed.
 
-### Installation
+### 1. Install `uv` (if not already installed)
+```bash
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Or via Homebrew
+brew install uv
+```
+
+### 2. Clone & Launch in One Step
 ```bash
 # Clone the repository
 git clone https://github.com/soumomo/clover.git
 cd clover
 
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### Run Locally
-```bash
-streamlit run app.py
+# Run directly (uv automatically resolves pyproject.toml & creates an isolated environment)
+uv run streamlit run app.py
 ```
 Open `http://localhost:8501` in your browser.
 
+> [!TIP]
+> Alternatively, synchronize your project dependencies deterministically using the committed `uv.lock`:
+> ```bash
+> uv sync
+> uv run streamlit run app.py
+> ```
+
 ---
 
-## Deployment & Hosting
+## Share Locally via Secure Cloudflare Tunnel
 
-### Option A: Streamlit Community Cloud (1-Click Free Hosting)
-1. Fork or push this repository to GitHub.
-2. Sign in to [share.streamlit.io](https://share.streamlit.io/).
-3. Click **"New app"** → select `soumomo/clover` → Branch `main` → Main file `app.py`.
-4. Click **"Deploy"**. Streamlit Cloud automatically reads `packages.txt` (GDAL/Mesa) and `requirements.txt`.
+To share your live local session with remote reviewers or judges without uploading to third-party platforms:
 
-### Option B: Docker / Cloud Run / Render / Railway
 ```bash
-docker build -t clover .
-docker run -p 8501:8501 clover
+# Install cloudflared (macOS)
+brew install cloudflared
+
+# Launch an instant public HTTPS tunnel to your local port 8501
+cloudflared tunnel --url http://localhost:8501
 ```
+Cloudflare will output an active public URL (e.g. `https://your-name.trycloudflare.com`) routing directly to your machine.
 
 ---
 
