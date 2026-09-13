@@ -1,7 +1,7 @@
 \documentclass[10pt,a4paper]{article}
 
 % --- Geometry & Spacing (Engineered strictly for exact 2 pages) ---
-\usepackage[margin=0.48in,top=0.42in,bottom=0.42in]{geometry}
+\usepackage[margin=0.46in,top=0.38in,bottom=0.38in]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
@@ -14,7 +14,7 @@
 \usepackage{fontawesome5}
 
 % --- Compact List Spacing ---
-\setlist{nosep,leftmargin=1.1em,itemsep=1pt,topsep=1.5pt}
+\setlist{nosep,leftmargin=1.1em,itemsep=0.5pt,topsep=1pt}
 
 % --- Colors & Styling ---
 \definecolor{forest}{RGB}{16, 120, 72}
@@ -29,11 +29,11 @@
 \newtcolorbox{calloutbox}[1]{
     colback=forest!6!white,
     colframe=forest!80!black,
-    fonttitle=\bfseries\small,
+    fonttitle=\bfseries\footnotesize,
     title=#1,
-    arc=1.2mm,
-    top=1mm, bottom=1mm, left=2mm, right=2mm,
-    boxrule=0.7pt
+    arc=1mm,
+    top=0.8mm, bottom=0.8mm, left=2mm, right=2mm,
+    boxrule=0.6pt
 }
 
 \pagestyle{empty} % Clean unnumbered 2-page submission format
@@ -95,27 +95,21 @@ A central innovation in Clover is replacing naive bounding-box addition with rig
 % ==============================================================================
 % SECTION 4: PANTROPICAL ALLOMETRY & DUAL UNCERTAINTY
 % ==============================================================================
-\noindent\textbf{\large 4. Pantropical Allometry \& Dual-Component Uncertainty Propagation}\\[0.25em]
-Because satellites cannot directly measure tree trunk diameter ($DBH$) or wood density ($\rho$) under a closed canopy, biomass estimation relies on crown diameter ($CD = \sqrt{W \cdot H}$) power-law scaling models.
+\noindent\textbf{\large 4. Pantropical Allometry \& Dual-Component Uncertainty Propagation}\\[0.2em]
+Because satellites cannot directly measure trunk diameter ($DBH$) or wood density ($\rho$) under a canopy, biomass estimation relies on crown diameter ($CD = \sqrt{W \cdot H}$) power-law models.
 \begin{itemize}
-    \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Allometry: Derived from 2,000+ destructively weighed trees across 4 continents:
-    \vspace{-0.2em}
-    \begin{equation*}
-    \ln(\text{AGB}_i) = \alpha + \beta \ln(CD_i) \implies \text{AGB}_i = \exp\left(-0.328 + 2.404 \ln(CD_i)\right) \quad [\text{kg dry matter}]
-    \end{equation*}
-    \vspace{-0.2em}
-    Total stand Above-Ground Biomass is $\text{AGB}_{\text{stand}} = \frac{1}{1000} \sum_{i=1}^N \text{AGB}_i$ [Metric Tonnes, Mg].
+    \item \textbf{\href{https://doi.org/10.1111/gcb.13388}{Jucker et al. (2016)}} Pantropical Allometry: Calibrated on 2,000+ destructively harvested trees: $\ln(\text{AGB}_i) = \alpha + \beta \ln(CD_i) \implies \text{AGB}_i = \exp\left(-0.328 + 2.404 \ln(CD_i)\right)$ [kg dry matter]. Stand biomass is $\text{AGB}_{\text{stand}} = \frac{1}{1000} \sum_{i=1}^N \text{AGB}_i$ [Mg].
     \item \textbf{Carbon Stock \& $\text{CO}_{2\text{e}}$}: Dry biomass is $47\%$ elemental carbon (IPCC standard): $C_{\text{stock}} = \text{AGB}_{\text{stand}} \times 0.47$. Multiplying by molecular weight ratio ($44/12 \approx 3.664$) yields equivalent atmospheric $\text{CO}_{2\text{e}}$ sequestered.
-    \item \textbf{Dual-Component Uncertainty Formulation}: At the individual stem level, allometry carries high residual variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). Under the \textbf{Central Limit Theorem (CLT)}, uncorrelated random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. Crucially, pantropical models carry an irreducible \textbf{systematic error floor} ($\sigma_{\text{sys}} \approx \pm 12.0\%$, \href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) due to regional wood density and climate taper variations that do not average to zero:
-    \vspace{-0.2em}
+    \item \textbf{Dual-Component Uncertainty Formulation}: At the individual stem level, allometry carries high residual variance ($\sigma_{\text{tree}} \approx \pm 56.5\%$). Under the \textbf{Central Limit Theorem (CLT)}, uncorrelated random errors cancel out across $N$ trees: $\sigma_{\text{stat}} = 56.5\% / \sqrt{N}$. Crucially, pantropical models carry an irreducible \textbf{systematic error floor} ($\sigma_{\text{sys}} \approx \pm 12.0\%$, \href{https://doi.org/10.1111/gcb.12629}{Chave et al., 2014}; \href{https://doi.org/10.1111/2041-210X.12753}{R\'ejou-M\'echain et al., 2017}) due to regional wood density and taper variations that do not average to zero:
+    \vspace{-0.25em}
     \begin{equation*}
     \sigma_{\text{total}} = \sqrt{\sigma_{\text{stat}}^2 + \sigma_{\text{sys}}^2} = \sqrt{\left(\frac{56.5\%}{\sqrt{N_{\text{trees}}}}\right)^2 + (12.0\%)^2} \approx \mathbf{\pm 12.5\%\text{ to } 13.5\%}
     \end{equation*}
-    \vspace{-0.2em}
+    \vspace{-0.25em}
     This guarantees that large stands asymptote to an audit-defensible, honest error bracket rather than claiming unscientific zero-error precision.
 \end{itemize}
 
-\vspace{0.25em}
+\vspace{0.2em}
 % ==============================================================================
 % SECTION 5: WHAT WORKED (EMPIRICAL BENCHMARK & GROUND VALIDATION)
 % ==============================================================================
@@ -126,9 +120,9 @@ Following visual audit, we calibrated detector thresholds from conservative defa
     \item \textbf{Geometric Dissolution}: Circumscribed ellipses eliminated $+21.46\%$ box area bias, and \texttt{shapely.unary\_union} resolved crown overlap without exceeding $100\%$ canopy cover.
 \end{itemize}
 
-\vspace{-0.3em}
+\vspace{-0.4em}
 \begin{center}
-\small
+\footnotesize
 \begin{tabular}{@{}lcccc@{}}
 \toprule
 \textbf{Site / Landscape} & \textbf{Old Count (0.25)} & \textbf{Calibrated (0.15)} & \textbf{Recall Gain} & \textbf{MPS Runtime} \\ \midrule
@@ -142,7 +136,7 @@ Following visual audit, we calibrated detector thresholds from conservative defa
 \end{tabular}
 \end{center}
 
-\vspace{-0.4em}
+\vspace{-0.5em}
 % ==============================================================================
 % SECTION 6: WHAT DIDN'T (FAILED EXPERIMENTS & NEGATIVE DISCLOSURES)
 % ==============================================================================
@@ -168,12 +162,10 @@ In accordance with voluntary carbon market principles, Clover explicitly establi
     \item \textbf{Solar Shadows \& Phenology}: Low sun angles cast long building/tree shadows that obscure foliar textures, while winter leaf-off states drop recall; tasking must enforce peak NDVI seasons.
 \end{enumerate}
 
-\vspace{0.25em}
+\vspace{0.2em}
 \begin{calloutbox}{Two Production Deployment Modalities}
-\begin{itemize}
-    \item \textbf{Live Cloud Web App}: Deployed 24/7 on Streamlit Cloud at \href{https://tryclover.streamlit.app}{\textbf{tryclover.streamlit.app}} with Mapbox GIS, clipboard screenshot paste, and GeoJSON/CSV export.
-    \item \textbf{Local Deterministic Execution}: Fast \texttt{uv}-based packaging ($<2\,\text{s}$): \quad\texttt{git clone https://github.com/soumomo/clover \&\& cd clover \&\& uv run streamlit run app.py}
-\end{itemize}
+\footnotesize
+\textbf{Live Cloud Web App}: \href{https://tryclover.streamlit.app}{\textbf{tryclover.streamlit.app}} (Mapbox GIS layers, screenshot paste, GeoJSON/CSV export). \quad$\vert$\quad \textbf{Local Fast Run}: \texttt{git clone https://github.com/soumomo/clover \&\& uv run streamlit run app.py} ($<2\,\text{s}$ startup).
 \end{calloutbox}
 
 \end{document}
