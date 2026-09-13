@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Central Park (The Ramble), New York - Cadastral AOI Perimeter</name>
+    <Placemark>
+      <name>Central Park (The Ramble), New York Boundary</name>
+      <description>Official audit perimeter polygon for carbon accounting</description>
+      <Style>
+        <LineStyle>
+          <color>ff4a5a16</color>
+          <width>2</width>
+        </LineStyle>
+        <PolyStyle>
+          <color>404a5a16</color>
+        </PolyStyle>
+      </Style>
+      <Polygon>
+        <extrude>1</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              -73.970233,40.778607,0 -73.968915,40.778607,0 -73.968695,40.778046,0 -73.968695,40.777443,0 -73.968970,40.777276,0 -73.970178,40.777276,0 -73.970453,40.777838,0 -73.970453,40.778441,0 -73.970233,40.778607,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

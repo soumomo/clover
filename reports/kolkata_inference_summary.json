@@ -1,0 +1,113 @@
+[
+  {
+    "tree_count": 82,
+    "aoi_area_m2": 80985.12,
+    "aoi_area_ha": 8.0985,
+    "tree_density_per_ha": 10.1,
+    "mean_crown_diameter_m": 6.26,
+    "std_crown_diameter_m": 1.93,
+    "median_crown_diameter_m": 5.8,
+    "mean_crown_area_m2": 33.71,
+    "total_raw_crown_area_m2": 2764.34,
+    "dissolved_canopy_area_m2": 2737.1,
+    "crown_overlap_area_m2": 27.24,
+    "crown_overlap_pct": 0.99,
+    "canopy_cover_pct_raw": 3.38,
+    "canopy_cover_pct_calibrated": 4.06,
+    "total_calibrated_canopy_area_m2": 3284.52,
+    "agb_total_mg": 5.66,
+    "agb_bounds_mg": [
+      3.68,
+      7.64
+    ],
+    "agb_density_mg_per_ha": 0.7,
+    "carbon_stock_mg_c": 2.66,
+    "carbon_bounds_mg_c": [
+      1.73,
+      3.59
+    ],
+    "citations": {
+      "shape_factor": "pi/4 (0.7854) circumscribed ellipse crown model",
+      "dissolve": "Shapely unary_union for non-overlapping spatial canopy cover",
+      "calibration": "Li et al. (PNAS Nexus 2023) +20% crown underestimation bias calibration",
+      "allometry": "Jucker et al. (2016/2017) GCB RS allometric equation ln(AGB) = -0.328 + 2.404*ln(CD) with +/-35% confidence bounds"
+    },
+    "site_name": "Kolkata Central Park (Banabitan, Salt Lake)",
+    "plot_path": "reports/kolkata_central_park_analysis.png",
+    "elapsed_seconds": 3.91
+  },
+  {
+    "tree_count": 52,
+    "aoi_area_m2": 80831.52,
+    "aoi_area_ha": 8.0832,
+    "tree_density_per_ha": 6.4,
+    "mean_crown_diameter_m": 7.63,
+    "std_crown_diameter_m": 2.6,
+    "median_crown_diameter_m": 7.49,
+    "mean_crown_area_m2": 50.96,
+    "total_raw_crown_area_m2": 2650.1,
+    "dissolved_canopy_area_m2": 2616.6,
+    "crown_overlap_area_m2": 33.5,
+    "crown_overlap_pct": 1.26,
+    "canopy_cover_pct_raw": 3.24,
+    "canopy_cover_pct_calibrated": 3.88,
+    "total_calibrated_canopy_area_m2": 3139.92,
+    "agb_total_mg": 5.92,
+    "agb_bounds_mg": [
+      3.85,
+      7.99
+    ],
+    "agb_density_mg_per_ha": 0.73,
+    "carbon_stock_mg_c": 2.78,
+    "carbon_bounds_mg_c": [
+      1.81,
+      3.76
+    ],
+    "citations": {
+      "shape_factor": "pi/4 (0.7854) circumscribed ellipse crown model",
+      "dissolve": "Shapely unary_union for non-overlapping spatial canopy cover",
+      "calibration": "Li et al. (PNAS Nexus 2023) +20% crown underestimation bias calibration",
+      "allometry": "Jucker et al. (2016/2017) GCB RS allometric equation ln(AGB) = -0.328 + 2.404*ln(CD) with +/-35% confidence bounds"
+    },
+    "site_name": "Kolkata Maidan & Victoria Memorial Gardens",
+    "plot_path": "reports/kolkata_maidan_victoria_analysis.png",
+    "elapsed_seconds": 3.64
+  },
+  {
+    "tree_count": 128,
+    "aoi_area_m2": 82219.17,
+    "aoi_area_ha": 8.2219,
+    "tree_density_per_ha": 15.6,
+    "mean_crown_diameter_m": 5.08,
+    "std_crown_diameter_m": 0.81,
+    "median_crown_diameter_m": 5.16,
+    "mean_crown_area_m2": 20.8,
+    "total_raw_crown_area_m2": 2662.59,
+    "dissolved_canopy_area_m2": 2655.13,
+    "crown_overlap_area_m2": 7.46,
+    "crown_overlap_pct": 0.28,
+    "canopy_cover_pct_raw": 3.23,
+    "canopy_cover_pct_calibrated": 3.88,
+    "total_calibrated_canopy_area_m2": 3186.15,
+    "agb_total_mg": 4.79,
+    "agb_bounds_mg": [
+      3.12,
+      6.47
+    ],
+    "agb_density_mg_per_ha": 0.58,
+    "carbon_stock_mg_c": 2.25,
+    "carbon_bounds_mg_c": [
+      1.46,
+      3.04
+    ],
+    "citations": {
+      "shape_factor": "pi/4 (0.7854) circumscribed ellipse crown model",
+      "dissolve": "Shapely unary_union for non-overlapping spatial canopy cover",
+      "calibration": "Li et al. (PNAS Nexus 2023) +20% crown underestimation bias calibration",
+      "allometry": "Jucker et al. (2016/2017) GCB RS allometric equation ln(AGB) = -0.328 + 2.404*ln(CD) with +/-35% confidence bounds"
+    },
+    "site_name": "Sundarbans Biosphere Mangrove Reserve",
+    "plot_path": "reports/sundarbans_mangrove_analysis.png",
+    "elapsed_seconds": 3.56
+  }
+]

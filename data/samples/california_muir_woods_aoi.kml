@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Muir Woods National Monument, California - Cadastral AOI Perimeter</name>
+    <Placemark>
+      <name>Muir Woods National Monument, California Boundary</name>
+      <description>Official audit perimeter polygon for carbon accounting</description>
+      <Style>
+        <LineStyle>
+          <color>ff4a5a16</color>
+          <width>2</width>
+        </LineStyle>
+        <PolyStyle>
+          <color>404a5a16</color>
+        </PolyStyle>
+      </Style>
+      <Polygon>
+        <extrude>1</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              -122.572375,37.892347,0 -122.571057,37.892347,0 -122.570837,37.891762,0 -122.570837,37.891133,0 -122.571112,37.890960,0 -122.572321,37.890960,0 -122.572595,37.891545,0 -122.572595,37.892174,0 -122.572375,37.892347,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

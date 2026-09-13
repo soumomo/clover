@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Kolkata Central Park AOI</name>
+    <description>Area of Interest for Tree Crown Delineation and Urban Forestry in Central Park (Banabitan), Salt Lake, Kolkata, West Bengal</description>
+    <Style id="canopyAoiStyle">
+      <LineStyle>
+        <color>ff00aa00</color>
+        <width>2.5</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>4d00ff00</color>
+      </PolyStyle>
+    </Style>
+    <Placemark>
+      <name>Central Park Canopy Survey AOI</name>
+      <description><![CDATA[
+        <b>Location:</b> Banabitan (Central Park), Salt Lake Sector II, Kolkata<br/>
+        <b>Target CRS:</b> EPSG:32645 (UTM Zone 45N)<br/>
+        <b>Area:</b> 51457.3 m² (5.146 ha)<br/>
+        <b>Nominal GSD:</b> ~0.27 m
+      ]]></description>
+      <styleUrl>#canopyAoiStyle</styleUrl>
+      <Polygon>
+        <extrude>1</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              88.4168,22.5851,0 88.4191,22.5851,0 88.41925,22.5861,0 88.4187,22.58715,0 88.4172,22.58715,0 88.41675,22.5862,0 88.4168,22.5851,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

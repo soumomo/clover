@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "california_muir_woods",
+        "name": "Muir Woods National Monument, California",
+        "crs": "EPSG:32610",
+        "description": "Temperate rainforest canopy of ancient coastal redwoods (Sequoia sempervirens)."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -122.57237548828124,
+              37.892347268356026
+            ],
+            [
+              -122.57105712890626,
+              37.892347268356026
+            ],
+            [
+              -122.57083740234376,
+              37.89176203527779
+            ],
+            [
+              -122.57083740234376,
+              37.89113345160118
+            ],
+            [
+              -122.57111206054688,
+              37.89096004920763
+            ],
+            [
+              -122.57232055664062,
+              37.89096004920763
+            ],
+            [
+              -122.57259521484374,
+              37.89154528228586
+            ],
+            [
+              -122.57259521484374,
+              37.89217386596248
+            ],
+            [
+              -122.57237548828124,
+              37.892347268356026
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

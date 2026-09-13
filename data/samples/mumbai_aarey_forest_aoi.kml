@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Aarey Forest / SGNP, Mumbai - Cadastral AOI Perimeter</name>
+    <Placemark>
+      <name>Aarey Forest / SGNP, Mumbai Boundary</name>
+      <description>Official audit perimeter polygon for carbon accounting</description>
+      <Style>
+        <LineStyle>
+          <color>ff4a5a16</color>
+          <width>2</width>
+        </LineStyle>
+        <PolyStyle>
+          <color>404a5a16</color>
+        </PolyStyle>
+      </Style>
+      <Polygon>
+        <extrude>1</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              72.873715,19.156377,0 72.875034,19.156377,0 72.875253,19.155676,0 72.875253,19.154924,0 72.874979,19.154716,0 72.873770,19.154716,0 72.873495,19.155417,0 72.873495,19.156169,0 72.873715,19.156377,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

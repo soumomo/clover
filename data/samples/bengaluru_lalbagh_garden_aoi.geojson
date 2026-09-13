@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "bengaluru_lalbagh_garden",
+        "name": "Lalbagh Botanical Garden, Bengaluru",
+        "crs": "EPSG:32643",
+        "description": "Centuries-old botanical arboretum with tropical deciduous and evergreen canopy around the lotus lake."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.5834442138672,
+              12.951858993890248
+            ],
+            [
+              77.58470764160155,
+              12.951858993890248
+            ],
+            [
+              77.58492736816406,
+              12.951163048144107
+            ],
+            [
+              77.58492736816406,
+              12.9504135681098
+            ],
+            [
+              77.58465270996093,
+              12.950199430957142
+            ],
+            [
+              77.58349914550782,
+              12.950199430957142
+            ],
+            [
+              77.58322448730469,
+              12.950895376703283
+            ],
+            [
+              77.58322448730469,
+              12.95164485673759
+            ],
+            [
+              77.5834442138672,
+              12.951858993890248
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

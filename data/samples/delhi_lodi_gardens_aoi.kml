@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Lodi Gardens, New Delhi - Cadastral AOI Perimeter</name>
+    <Placemark>
+      <name>Lodi Gardens, New Delhi Boundary</name>
+      <description>Official audit perimeter polygon for carbon accounting</description>
+      <Style>
+        <LineStyle>
+          <color>ff4a5a16</color>
+          <width>2</width>
+        </LineStyle>
+        <PolyStyle>
+          <color>404a5a16</color>
+        </PolyStyle>
+      </Style>
+      <Polygon>
+        <extrude>1</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              77.218808,28.594337,0 77.220126,28.594337,0 77.220346,28.593686,0 77.220346,28.592987,0 77.220071,28.592794,0 77.218863,28.592794,0 77.218588,28.593445,0 77.218588,28.594144,0 77.218808,28.594337,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

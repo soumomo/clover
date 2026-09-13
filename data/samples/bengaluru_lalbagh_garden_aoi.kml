@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Lalbagh Botanical Garden, Bengaluru - Cadastral AOI Perimeter</name>
+    <Placemark>
+      <name>Lalbagh Botanical Garden, Bengaluru Boundary</name>
+      <description>Official audit perimeter polygon for carbon accounting</description>
+      <Style>
+        <LineStyle>
+          <color>ff4a5a16</color>
+          <width>2</width>
+        </LineStyle>
+        <PolyStyle>
+          <color>404a5a16</color>
+        </PolyStyle>
+      </Style>
+      <Polygon>
+        <extrude>1</extrude>
+        <altitudeMode>clampToGround</altitudeMode>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              77.583444,12.951859,0 77.584708,12.951859,0 77.584927,12.951163,0 77.584927,12.950414,0 77.584653,12.950199,0 77.583499,12.950199,0 77.583224,12.950895,0 77.583224,12.951645,0 77.583444,12.951859,0
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

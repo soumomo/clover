@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "newyork_central_park_ramble",
+        "name": "Central Park (The Ramble), New York",
+        "crs": "EPSG:32618",
+        "description": "Dense 15-hectare temperate woodland canopy with mature oak, beech, and sweetgum trees."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -73.97023315429686,
+              40.77860722358444
+            ],
+            [
+              -73.96891479492189,
+              40.77860722358444
+            ],
+            [
+              -73.96869506835938,
+              40.77804566683973
+            ],
+            [
+              -73.96869506835938,
+              40.77744251329912
+            ],
+            [
+              -73.9689697265625,
+              40.7772761261155
+            ],
+            [
+              -73.97017822265624,
+              40.7772761261155
+            ],
+            [
+              -73.97045288085937,
+              40.77783768286021
+            ],
+            [
+              -73.97045288085937,
+              40.77844083640082
+            ],
+            [
+              -73.97023315429686,
+              40.77860722358444
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

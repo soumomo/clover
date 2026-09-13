@@ -1,0 +1,57 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "mumbai_aarey_forest",
+        "name": "Aarey Forest / SGNP, Mumbai",
+        "crs": "EPSG:32643",
+        "description": "Tropical moist deciduous forest canopy contiguous with Sanjay Gandhi National Park."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.87371520996095,
+              19.156376788603083
+            ],
+            [
+              72.87503356933593,
+              19.156376788603083
+            ],
+            [
+              72.87525329589843,
+              19.155676271661754
+            ],
+            [
+              72.87525329589843,
+              19.154923864576617
+            ],
+            [
+              72.8749786376953,
+              19.154716304001408
+            ],
+            [
+              72.87377014160157,
+              19.154716304001408
+            ],
+            [
+              72.87349548339844,
+              19.15541682094274
+            ],
+            [
+              72.87349548339844,
+              19.156169228027874
+            ],
+            [
+              72.87371520996095,
+              19.156376788603083
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
