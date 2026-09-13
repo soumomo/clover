@@ -31,15 +31,15 @@ class TreeDetector:
     def __init__(
         self,
         device: Optional[str] = None,
-        score_threshold: float = 0.30,
-        iou_threshold: float = 0.25,
+        score_threshold: float = 0.15,
+        iou_threshold: float = 0.30,
     ):
         """Initialize the Tree Crown Detector.
 
         Args:
             device: Computing device ('mps', 'cuda', 'cpu'). If None, auto-detected.
-            score_threshold: Minimum confidence score to retain detection (default 0.30).
-            iou_threshold: IoU threshold for boundary NMS suppression (default 0.25).
+            score_threshold: Minimum confidence score to retain detection (default 0.15).
+            iou_threshold: IoU threshold for boundary NMS suppression (default 0.30).
         """
         if device is None:
             if torch.backends.mps.is_available():
@@ -191,7 +191,7 @@ class TreeDetector:
         raster_metadata = inspect_raster(raster_path)
 
         if tiler is None:
-            tiler = SlidingWindowTiler(tile_size=400, overlap=0.20)
+            tiler = SlidingWindowTiler(tile_size=400, overlap=0.25)
 
         all_tile_predictions: list[pd.DataFrame] = []
 

@@ -715,7 +715,7 @@ SVG_ICONS = {
 
 @st.cache_resource
 def load_detector() -> TreeDetector:
-    return TreeDetector(score_threshold=0.25)
+    return TreeDetector(score_threshold=0.15, iou_threshold=0.30)
 
 @st.cache_resource
 def load_weed_filter() -> WeedWaterFilter:
@@ -930,7 +930,7 @@ PRESET_CONFIGS = {
 @st.cache_resource(show_spinner=False)
 def process_geotiff(
     tif_path: str,
-    score_threshold: float = 0.25,
+    score_threshold: float = 0.15,
     apply_weed_filter: bool = True,
     kml_clip_path: Optional[str] = None,
 ) -> dict:
@@ -949,7 +949,7 @@ def process_geotiff(
         active_tif, _ = clip_raster_to_aoi(tif_path, kml_gdf, output_path=clipped_dst)
 
     meta = inspect_raster(active_tif)
-    tiler = SlidingWindowTiler(tile_size=400, overlap=0.20)
+    tiler = SlidingWindowTiler(tile_size=400, overlap=0.25)
     pred_df, _ = detector.predict_tiled_raster(active_tif, tiler=tiler, score_threshold=score_threshold)
 
     purged_df = pd.DataFrame()
@@ -1304,7 +1304,7 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("#### **Detection Tuning**")
-    default_score = 0.18 if input_mode != "Curated Site & Benchmark Presets" else 0.25
+    default_score = 0.15
     score_thresh = st.slider(
         "Confidence Score Threshold",
         min_value=0.10,
