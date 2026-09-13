@@ -36,25 +36,11 @@ import streamlit.components.v1 as components
 from streamlit_folium import folium_static
 from canopy_core.components.paste_button import paste_image_button
 
-import torch
-
 from canopy_core.ingest import inspect_raster, parse_aoi, clip_raster_to_aoi, RasterMetadata
 from canopy_core.models.detector import TreeDetector
 from canopy_core.models.area_engine import CanopyAreaEngine, CanopyMetrics
 from canopy_core.filters.weed_filter import WeedWaterFilter
 from canopy_core.tiler import SlidingWindowTiler
-
-def get_hardware_label() -> str:
-    """Return dynamic human-readable hardware compute accelerator name."""
-    try:
-        if torch.cuda.is_available():
-            return f"NVIDIA {torch.cuda.get_device_name(0)} GPU"
-        elif hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
-            return "Apple Silicon GPU (MPS)"
-        else:
-            return "Multi-Core CPU"
-    except Exception:
-        return "Accelerated Compute"
 
 # -----------------------------------------------------------------------------
 # 1. Page Configuration & Clover Design System
@@ -1348,7 +1334,7 @@ with st.sidebar:
 if input_mode == "Curated Site & Benchmark Presets":
     active_cfg = PRESET_CONFIGS.get(selected_preset_key, PRESET_CONFIGS["kolkata_central_park"])
     kml_to_pass = active_cfg.get("kml_path") if use_kml else None
-    with st.spinner("Processing satellite imagery with deep neural canopy delineation..."):
+    with st.spinner("Processing satellite imagery..."):
         results = process_geotiff(
             tif_path=active_cfg["tif_path"],
             score_threshold=score_thresh,
@@ -1360,7 +1346,7 @@ else:
     if "use_multi_scale" not in locals():
         use_multi_scale = True
     if active_plain_image is not None:
-        with st.spinner("Processing pasted image with adaptive multi-scale pyramid..."):
+        with st.spinner("Processing image..."):
             results = process_plain_image_upload(
                 pil_image=active_plain_image,
                 assumed_gsd_m=custom_gsd,
@@ -1711,7 +1697,7 @@ if results.get("is_geotiff") and results.get("wgs_bounds") is not None:
     st.markdown(
         f"<div class='flora-disclosure-box'>"
         f"<div style='display: flex; align-items: center; gap: 6px; margin-bottom: 4px;'>{SVG_ICONS['info']}<b style='color: #111827;'>Audit Telemetry</b></div>"
-        f"Processed {metrics.tree_count} mature stems across {metrics.aoi_area_ha:.2f} ha in {results['elapsed_sec']:.2f}s on {get_hardware_label()}. "
+        f"Processed {metrics.tree_count} mature stems across {metrics.aoi_area_ha:.2f} ha in {results['elapsed_sec']:.2f}s. "
         f"CRS: <code>{meta.crs}</code> | Resolution: <b>{meta.gsd_meters:.3f} m/pixel</b>."
         f"</div>",
         unsafe_allow_html=True,
@@ -1741,7 +1727,7 @@ else:
         st.markdown(
             f"<div class='flora-disclosure-box'>"
             f"<div style='display: flex; align-items: center; gap: 6px; margin-bottom: 4px;'>{SVG_ICONS['info']}<b style='color: #111827;'>Adaptive Multi-Scale Telemetry</b></div>"
-            f"Delineated <b>{metrics.tree_count} individual crowns</b> across <b>{metrics.aoi_area_ha:.2f} ha</b> in {results['elapsed_sec']:.2f}s on {get_hardware_label()}.<br/>"
+            f"Delineated <b>{metrics.tree_count} individual crowns</b> across <b>{metrics.aoi_area_ha:.2f} ha</b> in {results['elapsed_sec']:.2f}s.<br/>"
             f"Feature Pyramid: <b>{pyramid_status}</b> · Effective Receptive Field: <b>~0.25 m/pixel</b>."
             f"</div>",
             unsafe_allow_html=True,
